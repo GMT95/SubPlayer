@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import DT from 'duration-time-conversion';
-import { t } from 'react-i18nify';
 
 const Metronome = styled.div`
     position: absolute;
@@ -82,7 +81,7 @@ export default function Component({ render, subtitle, newSub, addSub, player, pl
                     newSub({
                         start,
                         end,
-                        text: t('SUB_TEXT'),
+                        text: 'SUB_TEXT',
                     }),
                 );
             }

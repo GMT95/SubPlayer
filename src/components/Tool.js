@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import languages from '../libs/languages';
-import { t, Translate } from 'react-i18nify';
 import React, { useState, useCallback } from 'react';
 import { getExt, download } from '../utils';
 import { file2sub, sub2vtt, sub2srt, sub2txt } from '../libs/readSub';
@@ -263,12 +262,12 @@ export default function Header({
                 const { createFFmpeg, fetchFile } = FFmpeg;
                 const ffmpeg = createFFmpeg({ log: true });
                 ffmpeg.setProgress(({ ratio }) => setProcessing(ratio * 100));
-                setLoading(t('LOADING_FFMPEG'));
+                setLoading('LOADING_FFMPEG');
                 await ffmpeg.load();
                 ffmpeg.FS('writeFile', file.name, await fetchFile(file));
                 setLoading('');
                 notify({
-                    message: t('DECODE_START'),
+                    message: 'DECODE_START',
                     level: 'info',
                 });
                 const output = `${Date.now()}.mp3`;
@@ -280,14 +279,14 @@ export default function Header({
                 setProcessing(0);
                 ffmpeg.setProgress(() => null);
                 notify({
-                    message: t('DECODE_SUCCESS'),
+                    message: 'DECODE_SUCCESS',
                     level: 'success',
                 });
             } catch (error) {
                 setLoading('');
                 setProcessing(0);
                 notify({
-                    message: t('DECODE_ERROR'),
+                    message: 'DECODE_ERROR',
                     level: 'error',
                 });
             }
@@ -300,9 +299,9 @@ export default function Header({
             const { createFFmpeg, fetchFile } = FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
             ffmpeg.setProgress(({ ratio }) => setProcessing(ratio * 100));
-            setLoading(t('LOADING_FFMPEG'));
+            setLoading('LOADING_FFMPEG');
             await ffmpeg.load();
-            setLoading(t('LOADING_FONT'));
+            setLoading('LOADING_FONT');
 
             await fs.mkdir('/fonts');
             const fontExist = await fs.exists('/fonts/Microsoft-YaHei.ttf');
@@ -315,18 +314,18 @@ export default function Header({
                 await fs.writeFile('/fonts/Microsoft-YaHei.ttf', fontBlob);
                 ffmpeg.FS('writeFile', `tmp/Microsoft-YaHei.ttf`, await fetchFile(fontBlob));
             }
-            setLoading(t('LOADING_VIDEO'));
+            setLoading('LOADING_VIDEO');
             ffmpeg.FS(
                 'writeFile',
                 videoFile ? videoFile.name : 'sample.mp4',
                 await fetchFile(videoFile || 'sample.mp4'),
             );
-            setLoading(t('LOADING_SUB'));
+            setLoading('LOADING_SUB');
             const subtitleFile = new File([new Blob([sub2ass(subtitle)])], 'subtitle.ass');
             ffmpeg.FS('writeFile', subtitleFile.name, await fetchFile(subtitleFile));
             setLoading('');
             notify({
-                message: t('BURN_START'),
+                message: 'BURN_START',
                 level: 'info',
             });
             const output = `${Date.now()}.mp4`;
@@ -344,14 +343,14 @@ export default function Header({
             setProcessing(0);
             ffmpeg.setProgress(() => null);
             notify({
-                message: t('BURN_SUCCESS'),
+                message: 'BURN_SUCCESS',
                 level: 'success',
             });
         } catch (error) {
             setLoading('');
             setProcessing(0);
             notify({
-                message: t('BURN_ERROR'),
+                message: 'BURN_ERROR',
                 level: 'error',
             });
         }
@@ -376,13 +375,13 @@ export default function Header({
                         newSub({
                             start: '00:00:00.000',
                             end: '00:00:01.000',
-                            text: t('SUB_TEXT'),
+                            text: 'SUB_TEXT',
                         }),
                     ]);
                     player.src = url;
                 } else {
                     notify({
-                        message: `${t('VIDEO_EXT_ERR')}: ${file.type || ext}`,
+                        message: `${'VIDEO_EXT_ERR'}: ${file.type || ext}`,
                         level: 'error',
                     });
                 }
@@ -410,7 +409,7 @@ export default function Header({
                         });
                 } else {
                     notify({
-                        message: `${t('SUB_EXT_ERR')}: ${ext}`,
+                        message: `${'SUB_EXT_ERR'}: ${ext}`,
                         level: 'error',
                     });
                 }
@@ -453,13 +452,13 @@ export default function Header({
     );
 
     const onTranslate = useCallback(() => {
-        setLoading(t('TRANSLATING'));
+        setLoading('TRANSLATING');
         googleTranslate(formatSub(subtitle), translate)
             .then((res) => {
                 setLoading('');
                 setSubtitle(formatSub(res));
                 notify({
-                    message: t('TRANSLAT_SUCCESS'),
+                    message: 'TRANSLAT_SUCCESS',
                     level: 'success',
                 });
             })
@@ -477,46 +476,46 @@ export default function Header({
             <div className="top">
                 <div className="import">
                     <div className="btn">
-                        <Translate value="OPEN_VIDEO" />
+                        OPEN_VIDEO
                         <input className="file" type="file" onChange={onVideoChange} onClick={onInputClick} />
                     </div>
                     <div className="btn">
-                        <Translate value="OPEN_SUB" />
+                        OPEN_SUB
                         <input className="file" type="file" onChange={onSubtitleChange} onClick={onInputClick} />
                     </div>
                 </div>
                 {window.crossOriginIsolated ? (
                     <div className="burn" onClick={burnSubtitles}>
                         <div className="btn">
-                            <Translate value="EXPORT_VIDEO" />
+                            EXPORT_VIDEO
                         </div>
                     </div>
                 ) : null}
                 <div className="export">
                     <div className="btn" onClick={() => downloadSub('ass')}>
-                        <Translate value="EXPORT_ASS" />
+                        EXPORT_ASS
                     </div>
                     <div className="btn" onClick={() => downloadSub('srt')}>
-                        <Translate value="EXPORT_SRT" />
+                        EXPORT_SRT
                     </div>
                     <div className="btn" onClick={() => downloadSub('vtt')}>
-                        <Translate value="EXPORT_VTT" />
+                        EXPORT_VTT
                     </div>
                 </div>
                 <div className="operate">
                     <div
                         className="btn"
                         onClick={() => {
-                            if (window.confirm(t('CLEAR_TIP')) === true) {
+                            if (window.confirm('CLEAR_TIP') === true) {
                                 clearSubs();
                                 window.location.reload();
                             }
                         }}
                     >
-                        <Translate value="CLEAR" />
+                        CLEAR
                     </div>
                     <div className="btn" onClick={undoSubs}>
-                        <Translate value="UNDO" />
+                        UNDO
                     </div>
                 </div>
                 <div className="translate">
@@ -528,15 +527,15 @@ export default function Header({
                         ))}
                     </select>
                     <div className="btn" onClick={onTranslate}>
-                        <Translate value="TRANSLATE" />
+                        TRANSLATE
                     </div>
                 </div>
                 <div className="hotkey">
                     <span>
-                        <Translate value="HOTKEY_01" />
+                        HOTKEY_01
                     </span>
                     <span>
-                        <Translate value="HOTKEY_02" />
+                        HOTKEY_02
                     </span>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Translate } from 'react-i18nify';
 
 const Style = styled.div`
     display: flex;
@@ -12,7 +11,7 @@ const Style = styled.div`
 export default function Mobile() {
     return (
         <Style>
-            <Translate value="MOBILE_TIP" />
+            MOBILE_TIP
         </Style>
     );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { t } from 'react-i18nify';
 
 const Loading = styled.div`
     position: absolute;
@@ -41,7 +40,7 @@ export default function Component({ loading }) {
         <Loading>
             <div className="loading-inner">
                 <img src="/loading.svg" alt="loading" />
-                <div>{loading || t('LOADING')}</div>
+                <div>{loading || 'LOADING'}</div>
             </div>
         </Loading>
     );

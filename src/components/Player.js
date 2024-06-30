@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createRef, useCallback, useMemo, memo } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Translate } from 'react-i18nify';
 import styled from 'styled-components';
 import backlight from '../libs/backlight';
 import { isPlaying } from '../utils';
@@ -176,7 +175,7 @@ export default function Player(props) {
                     <div className="subtitle">
                         {focusing ? (
                             <div className="operate" onClick={onSplit}>
-                                <Translate value="SPLIT" />
+                                SPLIT
                             </div>
                         ) : null}
                         <TextareaAutosize
